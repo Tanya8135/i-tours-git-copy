@@ -1,0 +1,5 @@
+@import "./friendList/FriendList.css";
+
+.friend-container {
+  padding: 32px;
+}

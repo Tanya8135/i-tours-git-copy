@@ -1,0 +1,54 @@
+.friend-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  width: 350px;
+  padding: 18px 0px 18px 50px;
+  margin-bottom: 12px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.friend-status::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 25px;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.friend-status.online::before {
+  background-color: green;
+}
+
+.friend-status.offline::before {
+  background-color: red;
+}
+
+/* .friend-status::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 25px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%; */
+/* background-color: green; */
+/* } */
+
+.friend-name {
+  font-size: 18px;
+  color: #2a2a2a;
+  font-weight: 700;
+  margin-left: 18px;
+}

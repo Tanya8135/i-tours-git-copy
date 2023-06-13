@@ -1,0 +1,3 @@
+@import './transactionHistory/TransactionHistory.css';
+@import './transactionHistory/nameHistory/NameHistory.css';
+@import './transactionHistory/infoHistory/InfoHistory.css';
