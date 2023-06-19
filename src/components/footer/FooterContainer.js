@@ -4,7 +4,7 @@ export const FooterContainer = styled.div`
     padding: 10px 20px;
     border: 1px solid red;
     ${(props) => {
-        console.log(props)
+        // console.log(props)
     }}
 `;
 

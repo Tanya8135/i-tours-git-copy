@@ -1,15 +1,18 @@
 // import user from "../tours-page/user.json";
 import PropTypes from "prop-types";
+import style from './TourItem.module.css';
 import clsx from "clsx";
 import { LIGHT } from "constans";
 import { DARK } from "constans";
 
 const ToursItem = ({ name, price, continent, description, theme }) => {
     return (
-        <li className={clsx('tours-item', {
-            dark: theme === LIGHT,
-            light: theme === DARK,
-        })}>
+        <li
+            className={clsx(style["tours-item"], {
+                [style.dark]: theme === "LIGHT",
+                [style.light]: theme === "DARK",
+            })}
+        >
             <p>Name: {name}</p>
             <p>Price: {price}$</p>
             <p>Continent: {continent}</p>
