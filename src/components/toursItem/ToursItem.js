@@ -1,22 +1,23 @@
-// import user from "../tours-page/user.json";
-import PropTypes from "prop-types";
-import style from './TourItem.module.css';
-import clsx from "clsx";
-import { LIGHT } from "constans";
-import { DARK } from "constans";
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import { DARK, LIGHT } from 'constans';
+import css from './TourItem.module.css';
+
+
 
 const ToursItem = ({ name, price, continent, description, theme }) => {
     return (
         <li
-            className={clsx(style["tours-item"], {
-                [style.dark]: theme === "LIGHT",
-                [style.light]: theme === "DARK",
+            className={clsx(css['tours-item'], {
+                dark: theme === LIGHT,
+                light: theme === DARK,
             })}
+        // className={`${!description ? css['error-item'] : css['success-item']}`}
         >
-            <p>Name: {name}</p>
-            <p>Price: {price}$</p>
-            <p>Continent: {continent}</p>
-            {description && <p>Description: {description}</p>}
+            <p>Name:{name}</p>
+            <p>Price:{price}$</p>
+            <p>Continent:{continent}</p>
+            {description && <p>Description:{description}</p>}
         </li>
     );
 };
@@ -27,6 +28,6 @@ ToursItem.propTypes = {
     continent: PropTypes.string.isRequired,
     description: PropTypes.string,
     theme: PropTypes.string.isRequired,
-}
+};
 
 export default ToursItem;

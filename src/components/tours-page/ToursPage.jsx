@@ -1,122 +1,134 @@
-import { Component } from "react";
-// import { nanoid } from "nanoid";
+import ToursItem from "components/toursItem/ToursItem";
 import clsx from "clsx";
-
-import ToursItem from "../toursItem";
-
+import { DARK, LIGHT } from "constans";
+import { Component } from "react";
+import debounce from "lodash.debounce";
+import TourFormModal from "components/tours-form-modal/ToursFormModal";
 import "./ToursPage.scss";
+// import { addTour, fetchTours, removeTour } from "api/tours";
+import { fetchFilteredTours, fetchTours } from "helpers";
+// import { toursArray } from "data";
 
-import { LIGHT } from "constans";
-import { DARK } from "constans";
+const initialState = {
+  visible: false,
+  query: "",
+  total_items: 0,
+  items: [],
+  isLoading: false,
+};
 
-const toursArray = [
-  {
-    id: 1,
-    name: "Portugalia",
-    price: 3000,
-    continent: "Europe",
-    description: "Best tour for...",
-  },
-  {
-    id: 2,
-    name: "Ukraine",
-    price: 5000,
-    continent: "Europe",
-    // description: 'Best tour adasdw for...'
-  },
-  {
-    id: 3,
-    name: "Spain",
-    price: 4000,
-    continent: "Europe",
-    // description: 'Best tour adasdw for...'
-  },
-];
+class Tours extends Component {
+  state = initialState;
 
-class ToursPage extends Component {
-  // робимо Контрольованний елемент
-  state = {
-    query: "",
-    items: toursArray,
+  async componentDidMount() {
+    this.setState({ isLoading: true });
+
+    await fetchTours();
+
+    this.setState({ isLoading: false });
+
+    const { total_items, items } = await fetchTours();
+
+    this.setState({
+      isLoading: false,
+      total_items,
+      items,
+    });
+  }
+
+  shouldComponentUpdate(_, nextState) {
+    if (
+      this.state.isLoading &&
+      !nextState.isLoading &&
+      this.state.total_items === 0
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  handleChangeQuery = (event) => {
+    this.setState({ query: event.target.value });
   };
 
-  // відбувається ререндер
-  handleChangeQuery = (e) => {
-    // console.log(e.target.value);
-    this.setState({ query: e.target.value });
+  onOpenModal = () => {
+    this.setState({ visible: true });
+  };
+
+  onCloseModal = () => {
+    this.setState({ visible: false });
+  };
+
+  addNewTour = (tour) => {
+    this.setState((prevState) => ({ items: [...prevState.items, tour] }));
   };
 
   // handleFilterQuery = () => {
-  //   this.setState((prevState) => {
-  //     const items = prevState.items.filter((el) =>
-  //       el.name.toLowerCase().includes(prevState.query.toLowerCase())
-  //     );
-  //     return {
-  //       items,
-  //     };
-  //   });
+  //   const items = toursArray.filter(
+  //     (el) =>
+  //       el.name.toLowerCase().includes(this.state.query.toLowerCase()) &&
+  //       el.continent.toLowerCase().includes(this.state.query.toLowerCase())
+  //   );
+  //   this.setState({ items });
   // };
 
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+  }
+
   render() {
-    // const handleChangeQuery = (event) => {
-    //   console.log("work", event.target.value);
-    // };
-
     const { theme } = this.props;
-    const { query } = this.state;
-    // const { query, items } = this.state;
-
+    const { visible, query, total_items, items, isLoading } = this.state;
     return (
-      // <div className={`tours-container ${theme === DARK ? DARK : LIGHT}`}>
-      <div
-        className={clsx("tours-container", {
-          dark: theme === DARK,
-          light: theme === LIGHT,
-        })}
-      >
-        <h1 className="title-tour">Tours page</h1>
+      <>
+        <TourFormModal
+          visible={visible}
+          onClose={this.onCloseModal}
+          onAddTour={this.addNewTour}
+        />
 
-        <div className="tours-container__controlls">
-          {/* Неконтрольованний елемент (не зберігається в state) */}
-          {/* <input
-            type="text"
-            placeholder="search..."
-            onChange={handleChangeQuery}
-          /> */}
+        <div
+          className={clsx("tours-container__controlls", {
+            dark: theme === DARK,
+            light: theme === LIGHT,
+          })}
+          // style={getTheme(theme)}
+        >
+          <div className="tours-container">
+            <h1 className="title-tour">Tours page</h1>
+            <input
+              type="text"
+              placeholder="search..."
+              onChange={debounce(this.handleChangeQuery, 1000)}
+            />
+            {/* <button onClick={this.handleFilterQuery}>Search</button> */}
+            <button onClick={this.onOpenModal}>Add tour</button>
+          </div>
 
-          {/* Контрольованний елемент */}
-          <input
-            type="text"
-            placeholder="search..."
-            value={query}
-            onChange={this.handleChangeQuery}
-            // onChange={handleChangeQuery}
-          />
+          {isLoading ? (
+            <div>loading...</div>
+          ) : (
+            <>
+              {total_items && (
+                <div>
+                  <p>Total items:{total_items}</p>
+                  <ul className="tours-list">
+                    {items
+                      // .filter((el) =>
+                      //   el.name.toLowerCase().includes(query.toLowerCase())
+                      // )
+                      .map((tour) => (
+                        <ToursItem key={tour.id} {...tour} theme={theme} />
+                      ))}
+                  </ul>
+                </div>
+              )}
+            </>
+          )}
         </div>
-
-        {/* toLowerCase - за допомогою цього методу регістер введенних 
-літер перетворюється в малий і виводе фільтер, якщо назву написали
-з маленької літери */}
-        <ul className="tours-list">
-          {toursArray
-            .filter((el) => el.name.toLowerCase().includes(query.toLowerCase()))
-            .map((tour) => (
-              <ToursItem key={tour.id} {...tour} theme={theme} />
-            ))}
-        </ul>
-
-        {/* Така фільтрація по кнопці працює лише по обновлению сторінки після кожного нажатия на кнопку */}
-        {/* <button onClick={this.handleFilterQuery}>Search</button> */}
-
-        {/* Фшлтрація по кнопці */}
-        {/* <ul className="tours-list">
-          {items.map((tour) => (
-            <ToursItem key={tour.id} {...tour} theme={theme} />
-          ))}
-        </ul> */}
-      </div>
+      </>
     );
   }
 }
 
-export default ToursPage;
+export default Tours;

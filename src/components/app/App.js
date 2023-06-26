@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import Header from 'components/header';
 import ToursPage from 'components/tours-page';
@@ -21,6 +22,7 @@ import style from './App.module.css';
 // import { LIGHT } from 'constans';
 // import { DARK } from 'constans';
 import { DARK, LIGHT } from 'constans';
+
 
 // const App = () => {
 //     let theme = DARK;
@@ -67,7 +69,11 @@ class App extends Component {
         return (
             <div className={style['app-container']}>
                 <Header theme={theme} onChangeTheme={this.handleChangeTheme} />
-                <ToursPage theme={theme} />
+                {/* <ToursPage theme={theme} /> */}
+                <Routes>
+                    <Route path='/' element={<ToursPage theme={theme} />} />
+                    <Route path='/foo' element={<></>} />
+                </Routes>
                 <Footer />
             </div>
         );

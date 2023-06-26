@@ -1,11 +1,17 @@
 // import { Component } from 'react';
+import { Link } from 'react-router-dom';
 import '../header/Header.css';
 // import { DARK, LIGHT } from 'constans';
 
 const Header = ({ theme, onChangeTheme }) => {
     return (
         <header>
-            <p>logo</p>
+            {/* <p>logo</p> */}
+            <a href='/'>logo</a> {/* Link замість тегу <a> */}
+            {/* <Link to='/'>logo</Link> */}
+            <nav>
+                <Link to='/foo'>go to</Link>
+            </nav>
             <button onClick={onChangeTheme}>Current Theme:{theme}</button>
         </header>
     );

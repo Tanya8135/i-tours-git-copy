@@ -1,22 +1,21 @@
 @import-normalize; /* bring in normalize.css styles */
 /* @import './components/app/App.css'; */
-@import './components/profile/Profile.css';
-@import './components/statistics/Statistics.css';
-@import './components/friend/Friend.css';
-@import './components/transaction/Transaction.css';
-
+@import "./components/profile/Profile.css";
+@import "./components/statistics/Statistics.css";
+@import "./components/friend/Friend.css";
+@import "./components/transaction/Transaction.css";
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -35,4 +34,8 @@ ol {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+a {
+  text-decoration: none;
 }
