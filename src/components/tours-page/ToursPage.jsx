@@ -78,7 +78,7 @@ class Tours extends Component {
 
   render() {
     const { theme } = this.props;
-    const { visible, query, total_items, items, isLoading } = this.state;
+    const { visible, total_items, items, isLoading } = this.state;
     return (
       <>
         <TourFormModal
